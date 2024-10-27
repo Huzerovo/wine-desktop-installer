@@ -1,0 +1,2 @@
+kdialog:arm64
+cabextract:arm64
