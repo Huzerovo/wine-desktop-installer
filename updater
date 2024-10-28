@@ -1,11 +1,33 @@
 #!/usr/bin/bash
 
+info() {
+  printf "\033[;32m%s\033[0m\n" "$@"
+}
+
+warn() {
+  printf "\033[;33m%s\033[0m\n" "$@"
+}
+
+erro() {
+  printf "\033[;31m%s\033[0m\n" "$@" 1>&2
+}
+
+die() {
+  erro "$@"
+  exit 1
+}
+
 if [[ -f "builder.sh" ]]; then
   chmod +x "builder.sh"
   if [[ -f "scripts/install.sh" ]]; then
+    info "Building wine-desktop-installer..."
     ./builder.sh scripts/install.sh wine-desktop-installer
     chmod +x wine-desktop-installer
-    sudo mkdir -p /usr/local/bin
-    sudo mv wine-desktop-installer /usr/local/bin
+    info "Installing wine-desktop-installer..."
+    warn "This action may require password, default password is your user name."
+    sudo mkdir -p /usr/local/bin || die "Failed to update"
+    sudo mv wine-desktop-installer /usr/local/bin || die "Failed to update"
+    info "Successed!"
+    info "You can use 'wine-desktop-installer --help' to get usage."
   fi
 fi

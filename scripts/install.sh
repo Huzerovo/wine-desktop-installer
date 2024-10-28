@@ -72,9 +72,9 @@ usage() {
   cat << __EOF__
 Usage wine-script-installer [OPTIONS]
 
-    NOTE: call without options will do a full installation.
-
 OPTIONS:
+    --all                   Do a full installation.
+
     --install-winetricks    Install or update winetricks
     --install-wine          Install wine
     --install-depends       Install wine depends
@@ -123,7 +123,7 @@ if which wineserver &> /dev/null; then
   wineserver -k 2> /dev/null
 fi
 
-if [[ $# -eq 0 ]]; then
+all_installation() {
   install_winetricks
   download_wine
   extract_wine
@@ -131,10 +131,20 @@ if [[ $# -eq 0 ]]; then
   install_depends
   install_shell
   install_start_bin
+}
+
+if [[ $# -eq 0 ]]; then
+  erro "Require options."
+  usage
+  exit 1
 fi
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+    --all)
+      all_installation
+      exit 0
+      ;;
     --install-winetricks)
       install_winetricks
       shift
