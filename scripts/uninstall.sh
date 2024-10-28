@@ -2,6 +2,8 @@
 
 source common.sh
 
+source config.sh
+
 uninstall_wine() {
   info "Uninstalling wine..."
   rm -f /opt/wine &> /dev/null

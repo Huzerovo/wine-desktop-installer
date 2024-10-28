@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+if [[ -f "builder.sh" ]]; then
+  chmod +x "builder.sh"
+  if [[ -f "scripts/install.sh" ]]; then
+    ./builder.sh scripts/install.sh wine-desktop-installer
+    chmod +x wine-desktop-installer
+    sudo mkdir -p /usr/local/bin
+    sudo mv wine-desktop-installer /usr/local/bin
+  fi
+fi

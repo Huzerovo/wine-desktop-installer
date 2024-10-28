@@ -4,7 +4,7 @@ install_winetricks() {
 
   if [[ ! -d "$winetricks_repo" ]]; then
     info "Installing winetricks..."
-    git clone https://github.com/Winetricks/winetricks.git "$winetricks_repo" \
+    git clone https://github.com/Winetricks/winetricks.git "$winetricks_repo" &> /dev/null \
       || die "Failed to install winetricks"
   else
     local t_pwd="$PWD"

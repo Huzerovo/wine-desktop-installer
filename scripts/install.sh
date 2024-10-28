@@ -1,8 +1,10 @@
 #!/usr/bin/bash
 
-source ./common.sh
+source common.sh
 
-source ./config.sh
+source config.sh
+
+check_env
 
 ################################################################################
 
@@ -68,7 +70,7 @@ wine_link="/opt/wine"
 
 usage() {
   cat << __EOF__
-Usage $0 [OPTIONS]
+Usage wine-script-installer [OPTIONS]
 
     NOTE: call without options will do a full installation.
 
@@ -94,30 +96,25 @@ __EOF__
 }
 
 # function for installing winetricks
-source ./functions/install_winetricks.sh
+source functions/install_winetricks.sh
 
 # functions for installing wine (amd64 or x86 architecture)
-source ./functions/download_wine.sh
-source ./functions/extract_wine.sh
-source ./functions/link_wine.sh
+source functions/download_wine.sh
+source functions/extract_wine.sh
+source functions/link_wine.sh
 
 # functions for installing wine depends (arm64 ot armhf architecture)
-source ./functions/pre_processing.sh
-source ./functions/generate_depends.sh
-source ./functions/install_depends.sh
+source functions/pre_processing.sh
+source functions/generate_depends.sh
+source functions/install_depends.sh
 
 # function for install shell profile
-source ./functions/install_shell.sh
+source functions/install_shell.sh
 
 # function for install start bin
-source ./functions/install_start_bin.sh
+source functions/install_start_bin.sh
 
 ### Main ###
-
-# path where all file will store in
-if [[ -z "$WINE_DESKTOP_CONTAINER" ]]; then
-  die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-debian'?"
-fi
 
 cd "$wine_desktop" || cd_failed "$wine_desktop"
 

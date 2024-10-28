@@ -34,3 +34,10 @@ require_pkg() {
       }
   fi
 }
+
+check_env() {
+  # path where all file will store in
+  if [[ -z "$WINE_DESKTOP_CONTAINER" ]]; then
+    die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-debian'?"
+  fi
+}

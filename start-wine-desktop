@@ -3,11 +3,11 @@
 unset LD_PRELOAD
 
 info() {
-    printf "\033[;32m%s\033[0m\n" "$@"
+  printf "\033[;32m%s\033[0m\n" "$@"
 }
 
 warn() {
-    printf "\033[;33m%s\033[0m\n" "$@"
+  printf "\033[;33m%s\033[0m\n" "$@"
 }
 
 export BOX64_LOG=0
@@ -21,26 +21,26 @@ export WINEARCH=win64
 info "Wine desktop has been started."
 
 # $WINE_DESKTOP_KEEP will keep wine64 in front end
-if [[ -n "$WINE_DESKTOP_KEEP" ]]; then
-    wine64 explorer.exe /desktop=shell,$RESOLUTION &
-    warn "type 'q' or 'quit' to exit"
-    while read -p "> " line ; do
-        case "$line" in
-            "quit"|"q")
-                wineserver -k
-                info "wine desktop stopped"
-                break
-                ;;
-            *)
-                warn "type 'q' or 'quit' to exit"
-                ;;
-        esac
-    done
+if [[ -n "$WINE_DESKTOP_KEEP" ]] && [[ $WINE_DESKTOP_KEEP -eq 1 ]]; then
+  wine64 explorer.exe /desktop=shell,"$RESOLUTION" &
+  warn "type 'q' or 'quit' to exit"
+  while read -r -p "> " line; do
+    case "$line" in
+      "quit" | "q")
+        wineserver -k
+        info "wine desktop stopped"
+        break
+        ;;
+      *)
+        warn "type 'q' or 'quit' to exit"
+        ;;
+    esac
+  done
 else
-    warn "If you want to stop it from console, use 'wineserver -k'"
-    unset info
-    unset warn
-    exec wine64 explorer.exe /desktop=shell,$RESOLUTION &> /dev/null &
+  warn "If you want to stop it from console, use 'wineserver -k'"
+  unset info
+  unset warn
+  exec wine64 explorer.exe /desktop=shell,"$RESOLUTION" &> /dev/null &
 fi
 
 unset info

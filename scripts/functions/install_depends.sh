@@ -12,6 +12,7 @@ install_depends() {
   sudo dpkg --add-architecture armhf && sudo apt-get update &> /dev/null
 
   info "Installing depends..."
+  warn "Depending on your network, it may take a long time."
 
   # DO NOT quote the $depends_pkg
   # shellcheck disable=SC2086
