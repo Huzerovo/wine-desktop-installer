@@ -1,0 +1,4 @@
+*.deb
+depends.txt
+container/
+winetricks/
