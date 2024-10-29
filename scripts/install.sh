@@ -57,11 +57,17 @@ Usage wine-script-installer [OPTIONS]
 
 OPTIONS:
     --all                   Do a full installation.
+                            This action will stop wineserver
 
     --install-winetricks    Install or update winetricks
+
     --install-wine          Install wine
+                            This action will stop wineserver
+
     --install-depends       Install wine depends
+
     --install-shell         Install shell profile
+
     --install-start-bin     Install command to start wine desktop
 
     This is subprocess in install-depends
@@ -69,13 +75,16 @@ OPTIONS:
 
     These are subprocesses in install-wine
       --download-wine       Download the wine deb package
+
       --extract-wine        Extract files from deb package
+
       --link-wine           Link wine to PATH
+                            This action will stop wineserver
 
     --help, -h              Show this help
 
 __EOF__
-  warn "NOTE: See the source code for what the options mean."
+  warn "NOTE: See the source code for what the actions mean."
 }
 
 # function for installing winetricks
@@ -101,13 +110,16 @@ source functions/install_start_bin.sh
 
 cd "$wine_desktop" || cd_failed "$wine_desktop"
 
-# Stop wineserver
-if which wineserver &> /dev/null; then
-  wineserver -k 2> /dev/null
-fi
+stop_wineserver() {
+  # Stop wineserver
+  if which wineserver &> /dev/null; then
+    wineserver -k &> /dev/null
+  fi
+}
 
 all_installation() {
   install_winetricks
+  stop_wineserver
   download_wine
   extract_wine
   link_wine
@@ -133,6 +145,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --install-wine)
+      stop_wineserver
       download_wine
       extract_wine
       link_wine
@@ -147,6 +160,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --link-wine)
+      stop_wineserver
       link_wine
       shift
       ;;
