@@ -117,12 +117,16 @@ stop_wineserver() {
   fi
 }
 
-all_installation() {
-  install_winetricks
+install_wine() {
   stop_wineserver
   download_wine
   extract_wine
   link_wine
+}
+
+all_installation() {
+  install_winetricks
+  install_wine
   install_depends
   install_shell
   install_start_bin
@@ -134,68 +138,55 @@ if [[ $# -eq 0 ]]; then
   exit 1
 fi
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --all)
-      all_installation
-      exit 0
-      ;;
-    --install-winetricks)
-      install_winetricks
-      shift
-      ;;
-    --install-wine)
-      stop_wineserver
-      download_wine
-      extract_wine
-      link_wine
-      shift
-      ;;
-    --download-wine)
-      download_wine
-      shift
-      ;;
-    --extract-wine)
-      extract_wine
-      shift
-      ;;
-    --link-wine)
-      stop_wineserver
-      link_wine
-      shift
-      ;;
-    --generate-depends)
-      generate_depends
-      shift
-      ;;
-    --install-depends)
-      install_depends
-      shift
-      ;;
-    --install-shell)
-      install_shell
-      shift
-      ;;
-    --install-start-bin)
-      install_start_bin
-      shift
-      ;;
-    --help | -h)
-      usage
-      exit 0
-      ;;
-    *)
-      die "Unknow option $1"
-      ;;
-  esac
-done
+case $1 in
+  --all)
+    all_installation
+    ;;
+  --install-winetricks)
+    install_winetricks
+    ;;
+  --install-wine)
+    install_wine
+    ;;
+  --install-wine64)
+    unset LINK32
+    install_wine
+    ;;
+  --install-wine32)
+    unset LINK64
+    install_wine
+    ;;
+  --download-wine)
+    download_wine
+    ;;
+  --extract-wine)
+    extract_wine
+    ;;
+  --link-wine)
+    stop_wineserver
+    link_wine
+    ;;
+  --generate-depends)
+    generate_depends
+    ;;
+  --install-depends)
+    install_depends
+    ;;
+  --install-shell)
+    install_shell
+    ;;
+  --install-start-bin)
+    install_start_bin
+    ;;
+  --help | -h)
+    usage
+    ;;
+  *)
+    die "Unknow option $1"
+    ;;
+esac
 
 info "OK"
 warn "NOTE: You have to clean the deb file cache manually."
 warn "NOTE: 'depends.txt' and 'depends-addons.txt' are the list of depends."
 warn "      Those files may be used when uninstall wine desktop."
-
-# # remove any old wine-mono/wine-gecko install files
-# rm -rf ~/.cache/wine
-# # remove any old program shortcuts
-# rm -rf ~/.local/share/applications/wine
