@@ -18,10 +18,9 @@ die() {
 }
 
 if [[ -f "builder.sh" ]]; then
-  chmod +x "builder.sh"
   if [[ -f "scripts/install.sh" ]]; then
     info "Building wine-desktop-installer..."
-    ./builder.sh scripts/install.sh wine-desktop-installer
+    bash builder.sh scripts/install.sh wine-desktop-installer
     chmod +x wine-desktop-installer
     info "Installing wine-desktop-installer..."
     warn "This action may require password, default password is your user name."
