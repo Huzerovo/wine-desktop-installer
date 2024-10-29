@@ -1,9 +1,4 @@
 extract_wine() {
-  # remove old files
-  if [[ -d "$wine_extract" ]]; then
-    rm -rf "$wine_extract"
-  fi
-
   info "Extracting wine..."
 
   # extract files in 64-bit packages
