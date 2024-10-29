@@ -71,7 +71,7 @@ wine_desktop_log() {
 start_wine_desktop() {
   if ! [[ -d "$WINEPREFIX" ]]; then
     warn "Can not find prefix: '$WINEPREFIX', creating it..."
-    ${WINE} wineboot || die "Can not run 'wineboot'"
+    ${WINE} wineboot &> /dev/null || die "Can not run 'wineboot'"
   fi
   cd "$WINEPREFIX" || die "Can not change work directory into prefix"
   wineserver -k &> /dev/null
