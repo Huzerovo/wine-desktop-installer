@@ -26,23 +26,6 @@ winetricks_link="/usr/local/bin/winetricks"
 
 ### Configuration for wine ###
 
-# configuration for wine package
-
-# NOTE: comment the LINK?? will disable all packages
-# uncomment to enable packages
-
-# 64-bit version
-LINK64="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-amd64"
-DEB64_WINE="wine-${branch}-amd64_${version}~${dist}${tag}_amd64.deb"
-DEB64_TOOLS="wine-${branch}_${version}~${dist}${tag}_amd64.deb"
-#DEB64_DOCS="winehq-${branch}_${version}~${dist}${tag}_amd64.deb"
-
-# 32-bit version
-#LINK32="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-i386"
-DEB32_WINE="wine-${branch}-i386_${version}~${dist}${tag}_i386.deb"
-#DEB32_TOOLS="wine-${branch}_${version}~${dist}${tag}_i386.deb"
-#DEB32_DOCS="winehq-${branch}_${version}~${dist}${tag}_i386.deb"
-
 declare -a DEB64_PKGS=(
   "$DEB64_WINE"
   "$DEB64_TOOLS"

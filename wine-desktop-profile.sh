@@ -3,6 +3,7 @@ if [[ $ISOLATED_PATH -eq 1 ]]; then
   PATH="$PATH:/opt/wine/bin"
   export PATH
 fi
+unset ISOLATED_PATH
 
 if [[ $CLEAR_ANDROID_ENV -eq 1 ]]; then
   unset ANDROID_DATA
@@ -14,3 +15,4 @@ if [[ $CLEAR_ANDROID_ENV -eq 1 ]]; then
   unset DEX2OATBOOTCLASSPATH
   unset BOOTCLASSPATH
 fi
+unset CLEAR_ANDROID_ENV

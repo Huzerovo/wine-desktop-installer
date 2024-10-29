@@ -1,4 +1,5 @@
 *.deb
+config.sh
 depends.txt
 container/
 winetricks/
