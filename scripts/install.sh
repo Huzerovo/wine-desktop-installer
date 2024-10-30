@@ -52,6 +52,9 @@ wine32_path="${wine32_extract}/opt/wine-${branch_32}"
 wine64_link="/opt/wine64"
 wine32_link="/opt/wine32"
 
+# environment file
+env_file="${wine_desktop}/00wine-desktop.conf"
+
 ################################################################################
 
 usage() {
@@ -61,26 +64,19 @@ Usage wine-script-installer [OPTIONS]
 OPTIONS:
     --all                   Do a full installation.
                             This action will stop wineserver
-
     --install-winetricks    Install or update winetricks
-
     --install-wine          Install wine
                             This action will stop wineserver
-
     --install-depends       Install wine depends
-
     --install-shell         Install shell profile
-
     --install-start-bin     Install command to start wine desktop
+    --install-environment   Install Box64 or Box86 environment
 
     This is subprocess in install-depends
       --generate-depends    Generate deb package depends
-
     These are subprocesses in install-wine
       --download-wine       Download the wine deb package
-
       --extract-wine        Extract files from deb package
-
       --link-wine           Link wine to PATH
                             This action will stop wineserver
 
@@ -109,6 +105,9 @@ source functions/install_shell.sh
 # function for install start bin
 source functions/install_start_bin.sh
 
+# function for install environment
+source functions/install_environment.sh
+
 ### Main ###
 
 cd "$wine_desktop" || cd_failed "$wine_desktop"
@@ -133,6 +132,7 @@ all_installation() {
   install_depends
   install_shell
   install_start_bin
+  install_environment
 }
 
 if [[ $# -eq 0 ]]; then
@@ -180,6 +180,9 @@ case $1 in
     ;;
   --install-start-bin)
     install_start_bin
+    ;;
+  --install-environment)
+    install_environment
     ;;
   --help | -h)
     usage
