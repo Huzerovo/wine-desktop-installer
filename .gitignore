@@ -3,3 +3,6 @@ config.sh
 depends.txt
 container/
 winetricks/
+package.json
+package-lock.json
+node_modules/

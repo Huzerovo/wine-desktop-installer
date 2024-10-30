@@ -1,4 +1,5 @@
 install_start_bin() {
-  sudo cp start-wine-desktop /usr/local/bin/start-wine-desktop
-  sudo chmod +x /usr/local/bin/start-wine-desktop
+  chmod +x /usr/local/bin/wine-desktop
+  warn "Installing wine-desktop, it may require sudo privilege"
+  sudo cp wine-desktop /usr/local/bin/wine-desktop
 }
