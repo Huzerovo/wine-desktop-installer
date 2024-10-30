@@ -14,7 +14,7 @@ install_winetricks() {
     cd "$t_pwd" || cd_failed "$t_pwd"
   fi
 
-  require_pkg "sudo"
+  require_sudo
   if [[ -L "$winetricks_link" ]]; then
     sudo rm -f "$winetricks_link"
   fi
