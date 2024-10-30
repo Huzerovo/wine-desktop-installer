@@ -20,12 +20,18 @@ die() {
 }
 
 stop_wine64() {
-  export WINEARCH=win64
+  loacl arch
+  arch="$WINEARCH"
+  WINEARCH=win64
   wineserver -k &> /dev/null
+  WINEARCH="$arch"
 }
 stop_wine32() {
-  export WINEARCH=win32
+  loacl arch
+  arch="$WINEARCH"
+  WINEARCH=win32
   wineserver -k &> /dev/null
+  WINEARCH="$arch"
 }
 
 start_wine_desktop() {
@@ -37,7 +43,8 @@ start_wine_desktop() {
     ${WINE} wineboot &> /dev/null || die "Can not run 'wineboot'"
   fi
   cd "$WINEPREFIX" || die "Can not change work directory into prefix"
-  wineserver -k &> /dev/null
+  stop_wine64
+  stop_wine32
   wineserver -p
   info "Wine desktop is starting in background."
   $EXEC "$WINE" explorer.exe /desktop=shell,"$RESOLUTION" &> wine_desktop_log &
