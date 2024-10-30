@@ -45,8 +45,8 @@ wine64_extract="${wine_desktop}/container/64"
 wine32_extract="${wine_desktop}/container/32"
 
 # path where is the wine root
-wine64_path="${wine64_extract}/opt/wine-${branch}"
-wine32_path="${wine32_extract}/opt/wine-${branch}"
+wine64_path="${wine64_extract}/opt/wine-${branch_64}"
+wine32_path="${wine32_extract}/opt/wine-${branch_32}"
 
 # DO NOT modify it
 wine64_link="/opt/wine64"
