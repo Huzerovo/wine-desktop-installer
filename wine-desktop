@@ -29,6 +29,9 @@ stop_wine32() {
 }
 
 start_wine_desktop() {
+  if [[ -z "$WINEPREFIX" ]]; then
+    die "WINEPREFIX is empty"
+  fi
   if ! [[ -d "$WINEPREFIX" ]]; then
     warn "Can not find prefix: '$WINEPREFIX', creating it..."
     ${WINE} wineboot &> /dev/null || die "Can not run 'wineboot'"
@@ -66,31 +69,31 @@ if [[ $# -eq 0 ]]; then
 fi
 
 case "$1" in
-  "--start64" | "--64")
-    export WINE=wine64
+  --start64 | --64)
+    export WINE="wine64"
     export WINEPREFIX="$HOME/.wine64"
-    export WINEARCH=win64
+    export WINEARCH="win64"
     ;;
-  "--start32" | "--32")
-    export WINE=wine
+  --start32 | --32)
+    export WINE="wine"
     export WINEPREFIX="$HOME/.wine"
-    export WINEARCH=win32
+    export WINEARCH="win32"
     ;;
-  "--stop")
+  --stop)
     stop_wine32
     stop_wine64
     ;;
-  "--stop64")
+  --stop64)
     stop_wine64
     ;;
-  "--stop32")
+  --stop32)
     stop_wine32
     ;;
-  "--help" | "-h")
+  --help | -h)
     usage
     exit 0
     ;;
-  "*")
+  *)
     erro "unknow option: $1"
     exit 1
     ;;
@@ -102,7 +105,7 @@ if [[ -n "$WINE_DESKTOP_KEEP" ]] && [[ $WINE_DESKTOP_KEEP -eq 1 ]]; then
   warn "type 'q' or 'quit' to exit"
   while read -r -p "> " line; do
     case "$line" in
-      "quit" | "q")
+      quit | q)
         wineserver -k
         info "wine desktop stopped"
         break
