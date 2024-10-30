@@ -20,14 +20,14 @@ die() {
 }
 
 stop_wine64() {
-  loacl arch
+  local arch
   arch="$WINEARCH"
   WINEARCH=win64
   wineserver -k &> /dev/null
   WINEARCH="$arch"
 }
 stop_wine32() {
-  loacl arch
+  local arch
   arch="$WINEARCH"
   WINEARCH=win32
   wineserver -k &> /dev/null
