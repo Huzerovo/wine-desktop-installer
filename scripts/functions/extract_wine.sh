@@ -6,7 +6,7 @@ extract_wine() {
     for pkg in "${DEB64_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " extracting 64-bit package: '${pkg}'"
-        dpkg-deb -x "$pkg" "$wine_extract"
+        dpkg-deb -x "$pkg" "$wine64_extract"
       fi
     done
   fi
@@ -16,7 +16,7 @@ extract_wine() {
     for pkg in "${DEB32_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " extracting 32-bit package: '${pkg}'"
-        dpkg-deb -x "$pkg" "$wine_extract"
+        dpkg-deb -x "$pkg" "$wine32_extract"
       fi
     done
   fi

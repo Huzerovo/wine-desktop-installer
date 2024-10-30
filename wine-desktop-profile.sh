@@ -1,9 +1,8 @@
 if [[ $ISOLATED_PATH -eq 1 ]]; then
   PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
-  PATH="$PATH:/opt/wine/bin"
-  export PATH
 fi
 unset ISOLATED_PATH
+export PATH="$PATH:/opt/wine64/bin:/opt/wine32/bin"
 
 if [[ $CLEAR_ANDROID_ENV -eq 1 ]]; then
   unset ANDROID_DATA

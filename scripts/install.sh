@@ -41,13 +41,16 @@ declare -a DEB32_PKGS=(
 # configuration for install wine
 
 # path where the files in package will be extract to
-wine_extract="${wine_desktop}/container"
+wine64_extract="${wine_desktop}/container/64"
+wine32_extract="${wine_desktop}/container/32"
 
 # path where is the wine root
-wine_path="${wine_extract}/opt/wine-${branch}"
+wine64_path="${wine64_extract}/opt/wine-${branch}"
+wine32_path="${wine32_extract}/opt/wine-${branch}"
 
 # DO NOT modify it
-wine_link="/opt/wine"
+wine64_link="/opt/wine64"
+wine32_link="/opt/wine32"
 
 ################################################################################
 
