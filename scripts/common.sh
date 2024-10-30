@@ -35,6 +35,12 @@ require_pkg() {
   fi
 }
 
+require_sudo() {
+  require_pkg "sudo"
+  warn "This action may require your password to use 'sudo'"
+  warn "The default password is your username."
+}
+
 check_env() {
   # path where all file will store in
   if [[ -z "$WINE_DESKTOP_CONTAINER" ]]; then

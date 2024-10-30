@@ -1,8 +1,7 @@
 # Install wine from WineHQ pre-builed package
 link_wine() {
-  require_pkg "sudo"
-
   info "Installing wine link..."
+  require_sudo
 
   # install 64-bit
   if [[ -L "$wine64_link" ]]; then
