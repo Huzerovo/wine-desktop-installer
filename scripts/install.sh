@@ -53,7 +53,8 @@ wine64_link="/opt/wine64"
 wine32_link="/opt/wine32"
 
 # environment file
-env_file="${wine_desktop}/00wine-desktop.conf"
+box64rc_file="${wine_desktop}/box64rc"
+box86rc_file="${wine_desktop}/box86rc"
 
 ################################################################################
 
@@ -70,7 +71,7 @@ OPTIONS:
     --install-depends       Install wine depends
     --install-shell         Install shell profile
     --install-start-bin     Install command to start wine desktop
-    --install-environment   Install Box64 or Box86 environment
+    --install-boxrc         Install Box64 or Box86 rc file for user
 
     This is subprocess in install-depends
       --generate-depends    Generate deb package depends
@@ -106,7 +107,7 @@ source functions/install_shell.sh
 source functions/install_start_bin.sh
 
 # function for install environment
-source functions/install_environment.sh
+source functions/install_boxrc.sh
 
 ### Main ###
 
@@ -132,7 +133,7 @@ all_installation() {
   install_depends
   install_shell
   install_start_bin
-  install_environment
+  install_boxrc
 }
 
 if [[ $# -eq 0 ]]; then
@@ -181,8 +182,8 @@ case $1 in
   --install-start-bin)
     install_start_bin
     ;;
-  --install-environment)
-    install_environment
+  --install-boxrc)
+    install_boxrc
     ;;
   --help | -h)
     usage

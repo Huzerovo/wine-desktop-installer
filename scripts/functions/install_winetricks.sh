@@ -10,7 +10,7 @@ install_winetricks() {
     local t_pwd="$PWD"
     cd "$winetricks_repo" || cd_failed "$winetricks_repo"
     info "Updating winetricks..."
-    git pull || die "Failed to update winetricks"
+    git pull &> /dev/null || die "Failed to update winetricks"
     cd "$t_pwd" || cd_failed "$t_pwd"
   fi
 
@@ -18,5 +18,5 @@ install_winetricks() {
   if [[ -L "$winetricks_link" ]]; then
     sudo rm -f "$winetricks_link"
   fi
-  sudo ln -sv "$winetricks_path" "$winetricks_link" 2> /dev/null
+  sudo ln -s "$winetricks_path" "$winetricks_link" 2> /dev/null
 }
