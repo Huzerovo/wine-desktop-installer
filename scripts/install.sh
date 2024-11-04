@@ -154,7 +154,6 @@ source functions/install_start_bin.sh
 source functions/download_box.sh
 source functions/extract_box.sh
 source functions/build_box.sh
-source functions/link_box.sh
 source functions/install_boxrc.sh
 
 ### Main ###
@@ -178,8 +177,7 @@ install_wine() {
 install_box() {
   download_box
   extract_box
-  build_box
-  # TODO: make link to bin
+  build_box --install
 }
 
 all_installation() {
