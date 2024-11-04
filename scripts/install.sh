@@ -79,10 +79,10 @@ tar_box64="box64_$version_box64.tar.gz"
 tar_box86="box86_$version_box86.tar.gz"
 
 # path for buiding box{64|86}
-src_box64="box64-${version_box64}"
-src_box86="box86-${version_box86}"
-build_box64="${src_box64}/build"
-build_box86="${src_box86}/build"
+src_dir_box64="box64-${version_box64}"
+src_dir_box86="box86-${version_box86}"
+build_dir_box64="${src_dir_box64}/build"
+build_dir_box86="${src_dir_box86}/build"
 
 # the git repo
 link_box64_git="https://github.com/ptitSeb/box64.git"
@@ -107,15 +107,23 @@ OPTIONS:
     --install-depends       Install wine depends
     --install-shell         Install shell profile
     --install-start-bin     Install command to start wine desktop
+    --install-box           Build and install Box64 or Box86 from source
     --install-boxrc         Install Box64 or Box86 rc file for user
 
-    This is subprocess in install-depends
+    Subprocess in install-depends
       --generate-depends    Generate deb package depends
-    These are subprocesses in install-wine
+
+    Subprocesses in install-wine
       --download-wine       Download the wine deb package
       --extract-wine        Extract files from deb package
       --link-wine           Link wine to PATH
-                            This action will stop wineserver
+                            NOTE: This action will stop wineserver
+
+    Subprocesses in install-box
+      --download-box        Download the source files for box64 and box86
+      --extract-box         Download the tar files if downloaded from release
+      --build-box           Build the box64 and box86
+      --link-box            Link box64 and box86 binaty file to PATH
 
     --help, -h              Show this help
 
@@ -146,6 +154,7 @@ source functions/install_start_bin.sh
 source functions/download_box.sh
 source functions/extract_box.sh
 source functions/build_box.sh
+source functions/link_box.sh
 source functions/install_boxrc.sh
 
 ### Main ###
@@ -164,6 +173,13 @@ install_wine() {
   download_wine
   extract_wine
   link_wine
+}
+
+install_box() {
+  download_box
+  extract_box
+  build_box
+  # TODO: make link to bin
 }
 
 all_installation() {
@@ -185,18 +201,14 @@ case $1 in
   --all)
     all_installation
     ;;
+
+  # winetricks
   --install-winetricks)
     install_winetricks
     ;;
+
+  # wine
   --install-wine)
-    install_wine
-    ;;
-  --install-wine64)
-    unset LINK32
-    install_wine
-    ;;
-  --install-wine32)
-    unset LINK64
     install_wine
     ;;
   --download-wine)
@@ -215,11 +227,29 @@ case $1 in
   --install-depends)
     install_depends
     ;;
+
+  # shell profile
   --install-shell)
     install_shell
     ;;
+
+  # start bin
   --install-start-bin)
     install_start_bin
+    ;;
+
+  # box
+  --install-box)
+    install_box
+    ;;
+  --download_box)
+    download_box
+    ;;
+  --extract_box)
+    extract_box
+    ;;
+  --build_box)
+    build_box
     ;;
   --install-boxrc)
     install_boxrc

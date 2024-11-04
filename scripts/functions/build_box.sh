@@ -12,30 +12,34 @@ build_box() {
 }
 
 build_box64() {
-  if [[ -d "$src_box64" ]]; then
+  if [[ -d "$src_dir_box64" ]]; then
     local tpwd="$PWD"
-    mkdir -p "$build_box64"
-    cd "$build_box64" || cd_failed "$build_box64"
-    cmake "$src_box64" "${cmake_box64[@]}"
-    make -j8
+    mkdir -p "$build_dir_box64"
+    cd "$build_dir_box64" || cd_faile "$build_dir_box64"
+    {
+      cmake "$src_dir_box64" "${cmake_box64[@]}"
+      make -j8
+    } || die "Failed to build box64"
     #sudo make install
     cd "$tpwd" || cd_failed "$tpwd"
   else
-    warn "Can not find box64 source directory '$src_box64', ignored"
+    warn "Can not find box64 source directory '$src_dir_box64', ignored"
   fi
 }
 
 build_box86() {
-  if [[ -d "$src_box86" ]]; then
+  if [[ -d "$src_dir_box86" ]]; then
     local tpwd="$PWD"
-    mkdir -p "$build_box86"
-    cd "$build_box86" || cd_failed "$build_box86"
-    cmake "$src_box86" "${cmake_box86[@]}"
-    make -j8
+    mkdir -p "$build_dir_box86"
+    cd "$build_dir_box86" || cd_faile "$build_dir_box86"
+    {
+      cmake "$src_dir_box86" "${cmake_box86[@]}"
+      make -j8
+    } || die "Failed to build box86"
     #sudo make install
     cd "$tpwd" || cd_failed "$tpwd"
   else
-    warn "Can not find box86 source directory '$src_box86', ignored"
+    warn "Can not find box86 source directory '$src_dir_box86', ignored"
   fi
 }
 
