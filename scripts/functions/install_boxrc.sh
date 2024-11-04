@@ -1,10 +1,12 @@
 install_boxrc() {
-  if [[ -f "${box64rc}" ]]; then
+  if [[ -f "${rc_box64}" ]]; then
     info "Installing box64 rc file"
-    cp "${box64rc}" "$HOME/.${box64rc}"
+    cp "${rc_box64}" "$HOME/.${rc_box64}"
   fi
-  if [[ -f "${box86rc}" ]]; then
+  if [[ -f "${rc_box86}" ]]; then
     info "Installing box86 rc file"
-    cp "${box86rc}" "$HOME/.${box86rc}"
+    cp "${rc_box86}" "$HOME/.${rc_box86}"
   fi
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

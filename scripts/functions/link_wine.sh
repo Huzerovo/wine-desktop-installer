@@ -15,3 +15,5 @@ link_wine() {
   fi
   sudo ln -s "$wine32_path" "$wine32_link"
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

@@ -4,3 +4,5 @@ install_start_bin() {
   require_sudo
   sudo cp wine-desktop /usr/local/bin/wine-desktop
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

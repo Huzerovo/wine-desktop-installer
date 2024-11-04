@@ -19,3 +19,5 @@ generate_depends() {
 
   sort -u "depends.txt" -o "depends.txt"
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

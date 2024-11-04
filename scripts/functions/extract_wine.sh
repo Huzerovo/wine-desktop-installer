@@ -23,3 +23,5 @@ extract_wine() {
     done
   fi
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

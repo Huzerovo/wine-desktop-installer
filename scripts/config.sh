@@ -1,12 +1,13 @@
-### User-defined Wine version variables ###
+### Configuration for wine ###
 
 #example: devel, staging, or stable (wine-staging 4.5+ requires libfaudio0:i386)
-branch_64="devel"
-branch_32="devel"
+branch_wine64="devel"
+branch_wine32="devel"
 
 #example: "9.20"
-version_64="9.20"
-version_32="7.6"
+# NOTE: comment the version can disable installing the wine
+version_wine64="9.20"
+version_wine32="9.20"
 
 #example: debian, ubuntu
 id="debian"
@@ -15,22 +16,34 @@ id="debian"
 dist="bookworm"
 
 #example: -1 (some wine .deb files have -1 tag on the end and some don't)
-tag_64="-1"
-tag_32="-1"
+tag_wine64="-1"
+tag_wine32="-1"
 
-# configuration for wine package
+### Configuration for box64 and box86
 
-# NOTE: comment the LINK?? will disable all packages
-# uncomment to enable packages
+# version for box64, please see https://github.com/ptitSeb/box64/releases
+# version for box86, please see https://github.com/ptitSeb/box86/releases
+# or use 'git' for git version
+# comment the version can disable installing the box
+version_box64="0.3.0"
+version_box86="0.3.6"
 
-# 64-bit version
-#export LINK64="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-amd64"
-export DEB64_WINE="wine-${branch_64}-amd64_${version_64}~${dist}${tag_64}_amd64.deb"
-export DEB64_TOOLS="wine-${branch_64}_${version_64}~${dist}${tag_64}_amd64.deb"
-#export DEB64_DOCS="winehq-${branch}_${version}~${dist}${tag}_amd64.deb"
+declare -a cmake_box64
+cmake_box64=(
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  -DARM_DYNAREC=1
+  -DARM64=1
+  -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc
+  -DBAD_SIGNAL=ON
+)
 
-# 32-bit version
-export LINK32="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-i386"
-export DEB32_WINE="wine-${branch_32}-i386_${version_32}~${dist}${tag_32}_i386.deb"
-export DEB32_TOOLS="wine-${branch_32}_${version_32}~${dist}${tag_32}_i386.deb"
-#export DEB32_DOCS="winehq-${branch_32}_${version_32}~${dist}${tag_32}_i386.deb"
+declare -a cmake_box86
+cmake_box86=(
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  -DARM_DYNAREC=1
+  -DARM64=1
+  -DCMAKE_C_COMPILER=gcc
+  -DBAD_SIGNAL=ON
+)
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

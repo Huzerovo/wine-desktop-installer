@@ -1,30 +1,34 @@
 #!/usr/bin/bash
 
+################################################################################
+# NOTE: DO NOT modify any variable in this file.
+################################################################################
+
 source common.sh
 
 source config.sh
 
 check_env
 
-################################################################################
-
 wine_desktop="$WINE_DESKTOP_CONTAINER"
 
-### Configuration for install winetricks ###
+################################################################################
+# Configuration for winetricks
+################################################################################
 
 # path where the git repo will be clone to
 winetricks_repo="${wine_desktop}/winetricks"
 
-# usually not need to change, just a shorthand
+# the main script
 winetricks_path="${winetricks_repo}/src/winetricks"
 
 # path where the winetricks main file will be linked to
-# NOTE: the path it should be in the $PATH
+# NOTE: the bin path should be in the PATH
 winetricks_link="/usr/local/bin/winetricks"
 
 ################################################################################
-
-### Configuration for wine ###
+# Configuration for wine
+################################################################################
 
 declare -a DEB64_PKGS=(
   "$DEB64_WINE"
@@ -38,23 +42,55 @@ declare -a DEB32_PKGS=(
   "$DEB32_DOCS"
 )
 
-# configuration for install wine
-
 # path where the files in package will be extract to
 wine64_extract="${wine_desktop}/container/64"
 wine32_extract="${wine_desktop}/container/32"
 
 # path where is the wine root
-wine64_path="${wine64_extract}/opt/wine-${branch_64}"
-wine32_path="${wine32_extract}/opt/wine-${branch_32}"
+wine64_path="${wine64_extract}/opt/wine-${branch_wine64}"
+wine32_path="${wine32_extract}/opt/wine-${branch_wine32}"
 
 # DO NOT modify it
 wine64_link="/opt/wine64"
 wine32_link="/opt/wine32"
 
-# environment file
-box64rc_file="${wine_desktop}/box64rc"
-box86rc_file="${wine_desktop}/box86rc"
+# 64-bit version
+LINK64="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-amd64"
+DEB64_WINE="wine-${branch_wine64}-amd64_${version_wine64}~${dist}${tag_wine64}_amd64.deb"
+DEB64_TOOLS="wine-${branch_wine64}_${version_wine64}~${dist}${tag_wine64}_amd64.deb"
+DEB64_DOCS="winehq-${branch_wine64}_${version_wine64}~${dist}${tag_wine64}_amd64.deb"
+
+# 32-bit version
+LINK32="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-i386"
+DEB32_WINE="wine-${branch_wine32}-i386_${version_wine32}~${dist}${tag_wine32}_i386.deb"
+DEB32_TOOLS="wine-${branch_wine32}_${version_wine32}~${dist}${tag_wine32}_i386.deb"
+DEB32_DOCS="winehq-${branch_wine32}_${version_wine32}~${dist}${tag_wine32}_i386.deb"
+
+################################################################################
+# Configuration for box64 and box86
+################################################################################
+
+# $HOME/.box{64|86}rc file
+rc_box64="${wine_desktop}/box64rc"
+rc_box86="${wine_desktop}/box86rc"
+
+# downloaded source code archive
+tar_box64="box64_$version_box64.tar.gz"
+tar_box86="box86_$version_box86.tar.gz"
+
+# path for buiding box{64|86}
+src_box64="box64-${version_box64}"
+src_box86="box86-${version_box86}"
+build_box64="${src_box64}/build"
+build_box86="${src_box86}/build"
+
+# the git repo
+link_box64_git="https://github.com/ptitSeb/box64.git"
+link_box86_git="https://github.com/ptitSeb/box86.git"
+
+# the release package
+link_box64="https://github.com/ptitSeb/box64/archive/refs/tags/v$version_box64.tar.gz"
+link_box86="https://github.com/ptitSeb/box86/archive/refs/tags/v$version_box86.tar.gz"
 
 ################################################################################
 
@@ -106,7 +142,10 @@ source functions/install_shell.sh
 # function for install start bin
 source functions/install_start_bin.sh
 
-# function for install environment
+# functions for install box
+source functions/download_box.sh
+source functions/extract_box.sh
+source functions/build_box.sh
 source functions/install_boxrc.sh
 
 ### Main ###
@@ -197,3 +236,5 @@ info "OK"
 warn "NOTE: You have to clean the deb file cache manually."
 warn "NOTE: 'depends.txt' and 'depends-addons.txt' are the list of depends."
 warn "      Those files may be used when uninstall wine desktop."
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

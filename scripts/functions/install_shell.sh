@@ -7,3 +7,5 @@ install_shell() {
   info "Installing bash shell profile"
   sudo cp "wine-desktop-profile.sh" "/etc/profile.d/wine-desktop-profile.sh"
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

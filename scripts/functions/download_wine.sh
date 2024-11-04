@@ -24,3 +24,5 @@ download_wine() {
   fi
 
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

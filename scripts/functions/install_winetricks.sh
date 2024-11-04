@@ -20,3 +20,5 @@ install_winetricks() {
   fi
   sudo ln -s "$winetricks_path" "$winetricks_link" 2> /dev/null
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

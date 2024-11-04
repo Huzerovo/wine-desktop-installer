@@ -1,6 +1,7 @@
 *.deb
 config.sh
 depends.txt
+wine-desktop-installer
 container/
 winetricks/
 package.json

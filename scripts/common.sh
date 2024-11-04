@@ -47,3 +47,5 @@ check_env() {
     die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-debian'?"
   fi
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2
