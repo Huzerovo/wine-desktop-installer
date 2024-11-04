@@ -1,4 +1,6 @@
 *.deb
+*.tar.gz
+box*/
 config.sh
 depends.txt
 wine-desktop-installer

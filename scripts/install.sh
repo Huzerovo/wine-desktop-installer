@@ -242,13 +242,13 @@ case $1 in
   --install-box)
     install_box
     ;;
-  --download_box)
+  --download-box)
     download_box
     ;;
-  --extract_box)
+  --extract-box)
     extract_box
     ;;
-  --build_box)
+  --build-box)
     build_box
     ;;
   --install-boxrc)
