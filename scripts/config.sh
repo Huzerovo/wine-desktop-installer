@@ -30,19 +30,21 @@ version_box86="0.3.6"
 
 declare -a cmake_box64
 cmake_box64=(
+  --log-level=ERROR
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
   -DARM_DYNAREC=1
   -DARM64=1
-  -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc
+  -DCMAKE_C_COMPILER=gcc
   -DBAD_SIGNAL=ON
 )
 
 declare -a cmake_box86
 cmake_box86=(
+  --log-level=ERROR
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
   -DARM_DYNAREC=1
   -DARM64=1
-  -DCMAKE_C_COMPILER=gcc
+  -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc
   -DBAD_SIGNAL=ON
 )
 

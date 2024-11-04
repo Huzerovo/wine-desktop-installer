@@ -18,7 +18,7 @@ build_box64() {
     cd "$build_dir_box64" || cd_faile "$build_dir_box64"
     {
       cmake "$src_dir_box64" "${cmake_box64[@]}"
-      make -j8
+      make -j8 --quiet
     } || die "Failed to build box64"
     #sudo make install
     cd "$tpwd" || cd_failed "$tpwd"
@@ -34,7 +34,7 @@ build_box86() {
     cd "$build_dir_box86" || cd_faile "$build_dir_box86"
     {
       cmake "$src_dir_box86" "${cmake_box86[@]}"
-      make -j8
+      make -j8 --quiet
     } || die "Failed to build box86"
     #sudo make install
     cd "$tpwd" || cd_failed "$tpwd"

@@ -79,8 +79,8 @@ tar_box64="box64_$version_box64.tar.gz"
 tar_box86="box86_$version_box86.tar.gz"
 
 # path for buiding box{64|86}
-src_dir_box64="box64-${version_box64}"
-src_dir_box86="box86-${version_box86}"
+src_dir_box64="${wine_desktop}/box64-${version_box64}"
+src_dir_box86="${wine_desktop}/box86-${version_box86}"
 build_dir_box64="${src_dir_box64}/build"
 build_dir_box86="${src_dir_box86}/build"
 
