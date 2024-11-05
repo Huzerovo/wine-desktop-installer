@@ -1,4 +1,5 @@
 extract_winedoc() {
+    info "Extracting wine documents..."
   if [[ -n "$version_wine64" ]]; then
     mkdir -p "$wine64_extract"
     info " extracting 64-bit package: '${DEB64_DOCS}'"
@@ -9,6 +10,6 @@ extract_winedoc() {
   if [[ -n "$version_wine32" ]]; then
     mkdir -p "$wine32_extract"
     info " extracting 32-bit package: '${DEB32_DOCS}'"
-    dpkg-deb -x "$DEV32_DOCS" "$wine32_extract"
+    dpkg-deb -x "$DEB32_DOCS" "$wine32_extract"
   fi
 }
