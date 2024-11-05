@@ -30,18 +30,6 @@ winetricks_link="/usr/local/bin/winetricks"
 # Configuration for wine
 ################################################################################
 
-declare -a DEB64_PKGS=(
-  "$DEB64_WINE"
-  "$DEB64_TOOLS"
-  "$DEB64_DOCS"
-)
-
-declare -a DEB32_PKGS=(
-  "$DEB32_WINE"
-  "$DEB32_TOOLS"
-  "$DEB32_DOCS"
-)
-
 # path where the files in package will be extract to
 wine64_extract="${wine_desktop}/container/64"
 wine32_extract="${wine_desktop}/container/32"
@@ -65,6 +53,18 @@ LINK32="https://dl.winehq.org/wine-builds/${id}/dists/${dist}/main/binary-i386"
 DEB32_WINE="wine-${branch_wine32}-i386_${version_wine32}~${dist}${tag_wine32}_i386.deb"
 DEB32_TOOLS="wine-${branch_wine32}_${version_wine32}~${dist}${tag_wine32}_i386.deb"
 DEB32_DOCS="winehq-${branch_wine32}_${version_wine32}~${dist}${tag_wine32}_i386.deb"
+
+declare -a DEB64_PKGS=(
+  "$DEB64_WINE"
+  "$DEB64_TOOLS"
+  "$DEB64_DOCS"
+)
+
+declare -a DEB32_PKGS=(
+  "$DEB32_WINE"
+  "$DEB32_TOOLS"
+  "$DEB32_DOCS"
+)
 
 ################################################################################
 # Configuration for box64 and box86
