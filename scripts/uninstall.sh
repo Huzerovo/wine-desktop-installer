@@ -58,3 +58,5 @@ if ! [[ $# -gt 0 ]] && [[ "$1" == "--purge-armhf" ]]; then
   warn "Or if you are sure that you don't use multiarch, you can:"
   warn " use '$0 --purge-armhf' remove multiarch depends by this script."
 fi
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2

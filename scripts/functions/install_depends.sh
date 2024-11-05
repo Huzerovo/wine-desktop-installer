@@ -17,3 +17,5 @@ install_depends() {
   # shellcheck disable=SC2086
   sudo apt-get install -y $depends_pkg &> /dev/null || die "Failed to install depends"
 }
+
+# vim: tabstop=2 shiftwidth=2 softtabstop=2
