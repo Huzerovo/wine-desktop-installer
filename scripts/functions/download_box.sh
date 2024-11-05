@@ -24,8 +24,8 @@ download_box86() {
 download_box() {
   if [[ -n "$version_box64" ]]; then
     download_box64
-    else
-      warn "Will not download box64"
+  else
+    warn "Will not download box64"
   fi
 
   if [[ -n "$version_box86" ]]; then

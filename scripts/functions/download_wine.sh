@@ -1,6 +1,4 @@
 download_wine() {
-  require_pkg "wget"
-
   info "Downloading wine..."
 
   # install 64-bit packages
@@ -8,6 +6,7 @@ download_wine() {
     for pkg in "${DEB64_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " downloading 64-bit package: '${pkg}'"
+        require_pkg "wget"
         wget -q -c "${LINK64}/${pkg}" || die "Failed to download '${pkg}'"
       fi
     done
@@ -18,6 +17,7 @@ download_wine() {
     for pkg in "${DEB32_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " downloading 32-bit package: '${pkg}'"
+        require_pkg "wget"
         wget -q -c "${LINK32}/${pkg}" || die "Failed to download '${pkg}'"
       fi
     done

@@ -57,13 +57,11 @@ DEB32_DOCS="winehq-${branch_wine32}_${version_wine32}~${dist}${tag_wine32}_i386.
 declare -a DEB64_PKGS=(
   "$DEB64_WINE"
   "$DEB64_TOOLS"
-  "$DEB64_DOCS"
 )
 
 declare -a DEB32_PKGS=(
   "$DEB32_WINE"
   "$DEB32_TOOLS"
-  "$DEB32_DOCS"
 )
 
 ################################################################################
@@ -103,7 +101,11 @@ OPTIONS:
                             This action will stop wineserver
     --install-winetricks    Install or update winetricks
     --install-wine          Install wine
-                            This action will stop wineserver
+                            NOTE: This action will stop wineserver
+                                  and will NOT install wine documents
+    --install-winedoc       Install wine documents
+                            NOTE: This action will only be run when 
+                                  '--install-winedoc' specified
     --install-depends       Install wine depends
     --install-shell         Install shell profile
     --install-start-bin     Install command to start wine desktop
@@ -113,13 +115,17 @@ OPTIONS:
     Subprocess in install-depends
       --generate-depends    Generate deb package depends
 
-    Subprocesses in install-wine
+    Subprocess in install-wine
       --download-wine       Download the wine deb package
       --extract-wine        Extract files from deb package
       --link-wine           Link wine to PATH
                             NOTE: This action will stop wineserver
 
-    Subprocesses in install-box
+    Subprocess in install-winedoc
+      --download-winedoc    Download the wine document dev package
+      --extract-winedoc     Extract files from deb package
+
+    Subprocess in install-box
       --download-box        Download the source files for box64 and box86
       --extract-box         Download the tar files if downloaded from release
       --build-box           Build the box64 and box86
@@ -138,6 +144,10 @@ source functions/install_winetricks.sh
 source functions/download_wine.sh
 source functions/extract_wine.sh
 source functions/link_wine.sh
+
+# functions for installing wine documents
+source functions/download_winedoc.sh
+source functions/extract_winedoc.sh
 
 # functions for installing wine depends (arm64 ot armhf architecture)
 source functions/pre_processing.sh
@@ -171,6 +181,12 @@ install_wine() {
   stop_wineserver
   download_wine
   extract_wine
+  link_wine
+}
+
+install_winedoc() {
+  download_winedoc
+  extract_winedoc
   link_wine
 }
 
@@ -224,6 +240,16 @@ case $1 in
     ;;
   --install-depends)
     install_depends
+    ;;
+  # wine doc
+  --install-winedoc)
+    install_winedoc
+    ;;
+  --download-winedoc)
+    download_winedoc
+    ;;
+  --extract-winedoc)
+    extract_winedoc
     ;;
 
   # shell profile

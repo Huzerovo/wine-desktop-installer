@@ -11,7 +11,7 @@ extract_box64() {
 
 extract_box86() {
   if [[ -f "$tar_box86" ]]; then
-    info  "Extracting for box86..."
+    info "Extracting for box86..."
     tar -xzf "$tar_box86" || erro "Failed to extract '$tar_box86'"
   else
     warn "Can not find '$tar_box86' when extracting, ignored."
