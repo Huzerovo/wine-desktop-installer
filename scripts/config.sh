@@ -7,7 +7,9 @@ branch_wine32="devel"
 #example: "9.20"
 # NOTE: comment the version can disable installing the wine
 version_wine64="9.20"
-version_wine32="9.20"
+# NOTE: it seems that box86 can not run the wine with version higher than 7.15
+# See also: https://github.com/ptitSeb/box86/issues/600
+version_wine32="7.15"
 
 #example: debian, ubuntu
 id="debian"
