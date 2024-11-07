@@ -1,4 +1,5 @@
 # build box64 or box86
+# param $1 if $1 is "--install", will do installation after build
 build_box() {
   if [[ -n "$version_box64" ]]; then
     info "Building box64..."

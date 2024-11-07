@@ -1,5 +1,5 @@
 extract_winedoc() {
-    info "Extracting wine documents..."
+  info "Extracting wine documents..."
   if [[ -n "$version_wine64" ]]; then
     mkdir -p "$wine64_extract"
     info " extracting 64-bit package: '${DEB64_DOCS}'"

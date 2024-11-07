@@ -94,7 +94,7 @@ link_box86="https://github.com/ptitSeb/box86/archive/refs/tags/v$version_box86.t
 
 usage() {
   cat << __EOF__
-Usage wine-script-installer [OPTIONS]
+Usage wine-desktop-installer [OPTIONS]
 
 OPTIONS:
     --all                   Do a full installation.
@@ -106,7 +106,8 @@ OPTIONS:
     --install-winedoc       Install wine documents
                             NOTE: This action will only be run when 
                                   '--install-winedoc' specified
-    --install-depends       Install wine depends
+    --install-replacement   Install wine replacement binary
+    --install-depends       Install wine depending packages
     --install-shell         Install shell profile
     --install-start-bin     Install command to start wine desktop
     --install-box           Build and install Box64 or Box86 from source
@@ -145,6 +146,9 @@ source functions/download_wine.sh
 source functions/extract_wine.sh
 source functions/link_wine.sh
 
+# function for install wine replacement
+source functions/install_replacement.sh
+
 # functions for installing wine documents
 source functions/download_winedoc.sh
 source functions/extract_winedoc.sh
@@ -172,9 +176,18 @@ cd "$wine_desktop" || cd_failed "$wine_desktop"
 
 stop_wineserver() {
   # Stop wineserver
-  if which wineserver &> /dev/null; then
-    wineserver -k &> /dev/null
+  if [[ -x "$wine64_path/bin/wineserver" ]]; then
+    "$wine64_path/bin/wineserver" -k &> /dev/null
   fi
+  if [[ -x "$wine32_path/bin/wineserver" ]]; then
+    "$wine32_path/bin/wineserver" -k &> /dev/null
+  fi
+}
+
+install_box() {
+  download_box
+  extract_box
+  build_box --install
 }
 
 install_wine() {
@@ -190,19 +203,16 @@ install_winedoc() {
   link_wine
 }
 
-install_box() {
-  download_box
-  extract_box
-  build_box --install
-}
-
 all_installation() {
   install_winetricks
   install_wine
+  #install_winedoc
+  install_replacement
   install_depends
+  install_box
+  install_boxrc
   install_shell
   install_start_bin
-  install_boxrc
 }
 
 if [[ $# -eq 0 ]]; then
@@ -234,6 +244,9 @@ case $1 in
   --link-wine)
     stop_wineserver
     link_wine
+    ;;
+  --install-replacement)
+    install_replacement
     ;;
   --generate-depends)
     generate_depends
