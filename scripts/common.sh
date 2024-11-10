@@ -21,22 +21,36 @@ die() {
 }
 
 require_pkg() {
-  if ! which "$1" &> /dev/null; then
-    if [[ "$1" == "sudo" ]]; then
-      erro "Require 'sudo'"
-      die "please install the 'sudo' package and add user to sudoers manually"
-    fi
-    warn "Require package '$1', installing..."
-    sudo apt install "$1" \
-      || {
-        erro "Failed to install '$1'"
-        die "you have to install the package contains '$1' binary"
-      }
-  fi
+  case "$id" in
+    debian | ubuntu)
+      if ! dpkg-query -W "$1" &> /dev/null; then
+        warn "Require package '$1', installing..."
+        os_install_package "$1" || erro "Failed to install '$1'"
+      fi
+      ;;
+    *)
+      die "Unsupported os $id"
+      ;;
+  esac
 }
 
+# TODO: it is relay on the 'id' in config.sh, I think it is NOT a good idea.
+os_install_package() {
+  case "$id" in
+    debian | ubuntu)
+      apt-get install -yqq "$1"
+      ;;
+    *)
+      die "Unsupported os: $id"
+      ;;
+  esac
+}
+
+# call this function before using the 'sudo' command
 require_sudo() {
-  require_pkg "sudo"
+  if ! sudo --version &> /dev/null; then
+    os_install_package "sudo"
+  fi
   warn "This action may require your password to use 'sudo'"
   warn "The default password is your username."
 }
@@ -44,7 +58,7 @@ require_sudo() {
 check_env() {
   # path where all file will store in
   if [[ -z "$WINE_DESKTOP_CONTAINER" ]]; then
-    die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-debian'?"
+    die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-wine-desktop'?"
   fi
 }
 

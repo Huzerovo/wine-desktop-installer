@@ -32,6 +32,7 @@ build_box64() {
 }
 
 build_box86() {
+  require_pkg "gcc-arm-linux-gnueabihf"
   if [[ -d "$src_dir_box86" ]]; then
     local tpwd="$PWD"
     mkdir -p "$build_dir_box86"

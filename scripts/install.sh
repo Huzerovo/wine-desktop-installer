@@ -293,6 +293,7 @@ case $1 in
     ;;
   --help | -h)
     usage
+    exit 0
     ;;
   *)
     die "Unknow option $1"
@@ -302,6 +303,6 @@ esac
 info "OK"
 warn "NOTE: You have to clean the deb file cache manually."
 warn "NOTE: 'depends.txt' and 'depends-addons.txt' are the list of depends."
-warn "      Those files may be used when uninstall wine desktop."
+warn "      These files may be used when uninstall wine desktop."
 
 # vim: tabstop=2 shiftwidth=2 softtabstop=2
