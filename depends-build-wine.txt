@@ -1,0 +1,4 @@
+flex
+bison
+gcc-i686-linux-gnu
+gcc-x86-64-linux-gnu

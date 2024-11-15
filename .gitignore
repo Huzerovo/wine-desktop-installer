@@ -6,6 +6,7 @@ depends.txt
 wine-desktop-installer
 container/
 winetricks/
+win-replacement/
 package.json
 package-lock.json
 node_modules/

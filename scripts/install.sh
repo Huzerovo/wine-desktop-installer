@@ -142,66 +142,43 @@ __EOF__
 source functions/install_winetricks.sh
 
 # functions for installing wine (amd64 or x86 architecture)
-source functions/download_wine.sh
-source functions/extract_wine.sh
-source functions/link_wine.sh
+source functions/install_wine.sh
+
+# functions for installing wine documents
+source functions/install_winedoc.sh
 
 # function for install wine replacement
 source functions/install_replacement.sh
 
-# functions for installing wine documents
-source functions/download_winedoc.sh
-source functions/extract_winedoc.sh
-
 # functions for installing wine depends (arm64 ot armhf architecture)
-source functions/pre_processing.sh
 source functions/generate_depends.sh
 source functions/install_depends.sh
 
+# functions for install box
+source functions/install_box.sh
+
 # function for install shell profile
-source functions/install_shell.sh
+install_shell() {
+  # install bash profile
+  info "Installing shell profile"
+  require_sudo
+  # bash
+  sudo mkdir -p "/etc/profile.d"
+  info "Installing bash shell profile"
+  sudo cp "wine-desktop-profile.sh" "/etc/profile.d/wine-desktop-profile.sh"
+}
 
 # function for install start bin
-source functions/install_start_bin.sh
-
-# functions for install box
-source functions/download_box.sh
-source functions/extract_box.sh
-source functions/build_box.sh
-source functions/install_boxrc.sh
+install_start_bin() {
+  chmod +x wine-desktop
+  info "Installing wine-desktop"
+  require_sudo
+  sudo cp wine-desktop /usr/local/bin/wine-desktop
+}
 
 ### Main ###
 
 cd "$wine_desktop" || cd_failed "$wine_desktop"
-
-stop_wineserver() {
-  # Stop wineserver
-  if [[ -x "$wine64_path/bin/wineserver" ]]; then
-    "$wine64_path/bin/wineserver" -k &> /dev/null
-  fi
-  if [[ -x "$wine32_path/bin/wineserver" ]]; then
-    "$wine32_path/bin/wineserver" -k &> /dev/null
-  fi
-}
-
-install_box() {
-  download_box
-  extract_box
-  build_box --install
-}
-
-install_wine() {
-  stop_wineserver
-  download_wine
-  extract_wine
-  link_wine
-}
-
-install_winedoc() {
-  download_winedoc
-  extract_winedoc
-  link_wine
-}
 
 all_installation() {
   install_winetricks
@@ -210,7 +187,6 @@ all_installation() {
   install_replacement
   install_depends
   install_box
-  install_boxrc
   install_shell
   install_start_bin
 }
@@ -220,6 +196,8 @@ if [[ $# -eq 0 ]]; then
   usage
   exit 1
 fi
+
+export LANG=C
 
 case $1 in
   --all)

@@ -11,7 +11,7 @@ install_depends() {
 
   # enable multiarch
   info "Enable multiarch and update..."
-  sudo dpkg --add-architecture armhf && sudo apt-get update &> /dev/null
+  os_enable_multiarch
 
   warn "Depending on your network, it may take a long time."
 

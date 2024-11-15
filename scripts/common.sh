@@ -15,9 +15,30 @@ cd_failed() {
 }
 
 die() {
-  # TODO revert_wine
   erro "$@"
   exit 1
+}
+
+os_enable_multiarch() {
+  case "$id" in
+    debian | ubuntu)
+    sudo dpkg --add-architecture armhf && sudo apt-get update &> /dev/null
+      ;;
+    *)
+      die "Unsupported os: $id"
+      ;;
+  esac
+}
+
+os_install_package() {
+  case "$id" in
+    debian | ubuntu)
+      sudo apt-get install -yqq "$1"
+      ;;
+    *)
+      die "Unsupported os: $id"
+      ;;
+  esac
 }
 
 require_pkg() {
@@ -34,24 +55,12 @@ require_pkg() {
   esac
 }
 
-# TODO: it is relay on the 'id' in config.sh, I think it is NOT a good idea.
-os_install_package() {
-  case "$id" in
-    debian | ubuntu)
-      apt-get install -yqq "$1"
-      ;;
-    *)
-      die "Unsupported os: $id"
-      ;;
-  esac
-}
-
 # call this function before using the 'sudo' command
 require_sudo() {
   if ! sudo --version &> /dev/null; then
-    os_install_package "sudo"
+    die "You should install 'sudo' manually."
   fi
-  warn "This action may require your password to use 'sudo'"
+  warn "This action may require your password to use 'sudo'."
   warn "The default password is your username."
 }
 
