@@ -17,7 +17,7 @@ download_wine() {
       if [[ -n "$pkg" ]]; then
         info " downloading 64-bit package: '${pkg}'"
         require_pkg "wget"
-        wget -q -c "${LINK64}/${pkg}" || die "Failed to download '${pkg}'"
+        wget -q -c "${LINK64}/${pkg}" -O "$wine_desktop_cache/$pkg" || die "Failed to download '${pkg}'"
       fi
     done
   fi
@@ -28,7 +28,7 @@ download_wine() {
       if [[ -n "$pkg" ]]; then
         info " downloading 32-bit package: '${pkg}'"
         require_pkg "wget"
-        wget -q -c "${LINK32}/${pkg}" || die "Failed to download '${pkg}'"
+        wget -q -c "${LINK32}/${pkg}" -O "$wine_desktop_cache/$pkg" || die "Failed to download '${pkg}'"
       fi
     done
   fi
@@ -44,7 +44,7 @@ extract_wine() {
     for pkg in "${DEB64_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " extracting 64-bit package: '${pkg}'"
-        dpkg-deb -x "$pkg" "$wine64_extract"
+        dpkg-deb -x "$wine_desktop_cache/$pkg" "$wine64_extract"
       fi
     done
   fi
@@ -55,14 +55,14 @@ extract_wine() {
     for pkg in "${DEB32_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
         info " extracting 32-bit package: '${pkg}'"
-        dpkg-deb -x "$pkg" "$wine32_extract"
+        dpkg-deb -x "$wine_desktop_cache/$pkg" "$wine32_extract"
       fi
     done
   fi
 }
 
 link_wine() {
-  info "Installing wine link..."
+  info "Installing wine binary..."
   require_sudo
 
   # install 64-bit

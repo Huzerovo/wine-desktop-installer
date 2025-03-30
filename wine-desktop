@@ -47,7 +47,7 @@ start_wine_desktop() {
   stop_wine32
   wineserver -p
   info "Wine desktop is starting in background."
-  $EXEC "$WINE" explorer.exe /desktop=shell,"$RESOLUTION" &> wine_desktop_log &
+  $EXEC "$WINE" explorer.exe /desktop=shell,"$RESOLUTION" &> wine-desktop.log &
 }
 
 usage() {

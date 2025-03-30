@@ -2,23 +2,22 @@
 install_winetricks() {
   require_pkg "git"
 
-  if [[ ! -d "$winetricks_repo" ]]; then
+  if [[ ! -d "$conf_winetricks_3rd" ]]; then
     info "Installing winetricks..."
-    git clone https://github.com/Winetricks/winetricks.git "$winetricks_repo" &> /dev/null \
+    git clone "$conf_winetricks_repo" "$conf_winetricks_3rd" &> /dev/null \
       || die "Failed to install winetricks"
   else
     local t_pwd="$PWD"
-    cd "$winetricks_repo" || cd_failed "$winetricks_repo"
+    cd "$conf_winetricks_3rd" || cd_failed "$conf_winetricks_3rd"
     info "Updating winetricks..."
     git pull &> /dev/null || die "Failed to update winetricks"
     cd "$t_pwd" || cd_failed "$t_pwd"
   fi
 
-  require_sudo
-  if [[ -L "$winetricks_link" ]]; then
-    sudo rm -f "$winetricks_link"
-  fi
-  sudo ln -s "$winetricks_path" "$winetricks_link" 2> /dev/null
+  local t_pwd="$PWD"
+  cd "$conf_winetricks_3rd" || cd_failed "$conf_winetricks_3rd"
+	make PREFIX="$prefix" prefix="$prefix" install
+  cd "$t_pwd" || cd_failed "$t_pwd"
 }
 
 # vim: tabstop=2 shiftwidth=2 softtabstop=2

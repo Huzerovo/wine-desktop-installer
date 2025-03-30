@@ -4,23 +4,38 @@ source common.sh
 
 source config.sh
 
+uninstall_box() {
+	if [[ -d "$conf_box64_build" ]] ;then
+		make -C "$conf_box64_build" uninstall
+	fi
+	if [[ -d "$conf_box86_build" ]] ;then
+		make -C "$conf_box86_build" uninstall
+	fi
+}
+
 uninstall_wine() {
   info "Uninstalling wine..."
-  rm -f /opt/wine &> /dev/null
+  rm -f /opt/wine32 \
+		/opt/wine64 \
+    /usr/local/bin/wine \
+    /usr/local/bin/wine64 \
+    /usr/local/bin/wineserver &> /dev/null
 }
 
 uninstall_winetricks() {
   info "Uninstalling winetricks..."
-  rm -f /usr/local/bin/winetricks &> /dev/null
+  rm -f /use/local/bin/winetricks \
+    /use/local/share/man/man1/winetricks.1 \
+    /use/local/share/applications/winetricks.desktop \
+    /use/local/share/metainfo/io.github.winetricks.Winetricks.metainfo.xml \
+    /use/local/share/icons/hicolor/scalable/apps/winetricks.svg \
+    /use/local/share/bash-completion/completions/winetricks &> /dev/null
 }
 
 # wine replacement and helper bin
 uninstall_bin() {
   info "Uninstalling bin..."
   rm -f \
-    /usr/local/bin/wine \
-    /usr/local/bin/wine64 \
-    /usr/local/bin/wineserver \
     /usr/local/bin/start-wine-desktop &> /dev/null
 }
 

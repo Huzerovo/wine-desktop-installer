@@ -19,55 +19,27 @@ die() {
   exit 1
 }
 
-os_enable_multiarch() {
-  case "$id" in
-    debian | ubuntu)
-    sudo dpkg --add-architecture armhf && sudo apt-get update &> /dev/null
-      ;;
-    *)
-      die "Unsupported os: $id"
-      ;;
-  esac
-}
-
-os_install_package() {
-  case "$id" in
-    debian | ubuntu)
-      sudo apt-get install -yqq "$1"
-      ;;
-    *)
-      die "Unsupported os: $id"
-      ;;
-  esac
-}
-
 require_pkg() {
-  case "$id" in
-    debian | ubuntu)
-      if ! dpkg-query -W "$1" &> /dev/null; then
-        warn "Require package '$1', installing..."
-        os_install_package "$1" || erro "Failed to install '$1'"
-      fi
-      ;;
-    *)
-      die "Unsupported os $id"
-      ;;
-  esac
+  if ! which "$1" &> /dev/null; then
+    if [[ "$1" == "sudo" ]]; then
+      erro "Require 'sudo'"
+      die "please install the 'sudo' package and add user to sudoers manually"
+    fi
+    warn "Require package '$1', installing..."
+    sudo apt-get install -y "$1" || die "Failed to install '$1'"
+  fi
 }
 
-# call this function before using the 'sudo' command
 require_sudo() {
-  if ! sudo --version &> /dev/null; then
-    die "You should install 'sudo' manually."
-  fi
-  warn "This action may require your password to use 'sudo'."
+  require_pkg "sudo"
+  warn "This action may require your password to use 'sudo'"
   warn "The default password is your username."
 }
 
 check_env() {
   # path where all file will store in
-  if [[ -z "$WINE_DESKTOP_CONTAINER" ]]; then
-    die "Can not find WINE_DESKTOP_CACHE environment, did you login with 'start-wine-desktop'?"
+  if [[ -z "$WINE_DESKTOP_CONTAINER" ]] || [[ ! -d "$WINE_DESKTOP_CONTAINER" ]] ; then
+    die "Can not find WINE_DESKTOP_CACHE environment, do you login with 'start-wine-desktop' in termux?"
   fi
 }
 

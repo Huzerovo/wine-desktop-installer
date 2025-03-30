@@ -18,12 +18,6 @@ build() {
     sourced=$(echo "$main_line" | sed -n "s/$regex/\2/p")
     if [ -n "$sourced" ]; then
       indent=$(echo "$main_line" | sed -n "s/$regex/\1/p")
-      if [[ "$sourced" == "config.sh" ]]; then
-        if [[ ! -f "config.sh" ]]; then
-          cp "$scirpt_dir/config.sh" "./config.sh"
-        fi
-        prefix="."
-      fi
       while read -r sourced_line; do
         echo "${indent}${sourced_line}" >> "$TARGET"
       done < "$prefix/$sourced"
