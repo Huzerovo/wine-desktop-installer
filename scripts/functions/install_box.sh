@@ -59,14 +59,16 @@ __build_box64() {
   if [[ -d "$conf_box64_3rd" ]]; then
     local tpwd="$PWD"
 		if [[ -d "$conf_box64_build" ]] ; then
-			rm -rf "$conf_box64_build"
+			warn "Use exist box64 build"
+			#rm -rf "$conf_box64_build"
+		else
+			mkdir -p "$conf_box64_build"
 		fi
-    mkdir -p "$conf_box64_build"
     cd "$conf_box64_build" || cd_faile "$conf_box64_build"
     {
       cmake "$conf_box64_3rd" "${conf_box64_cmake_flags[@]}"
-      make -j
-    } &> /dev/null || die "Failed to build box64"
+      make -j "$conf_box_make_threads"
+    } &> "$conf_box64_make_log" || die "Failed to build box64"
     if [[ "$1" == "--install" ]]; then
       require_sudo
       sudo make install &> /dev/null
@@ -82,14 +84,16 @@ __build_box86() {
   if [[ -d "$conf_box86_3rd" ]]; then
     local tpwd="$PWD"
 		if [[ -d "$conf_box86_build" ]] ; then 
-		  rm -rf "$conf_box86_build"
+			warn "Use exist box86 build"
+		  #rm -rf "$conf_box86_build"
+		else
+			mkdir -p "$conf_box86_build"
 		fi
-    mkdir -p "$conf_box86_build"
     cd "$conf_box86_build" || cd_faile "$conf_box86_build"
     {
       cmake "$conf_box86_3rd" "${conf_box86_cmake_flags[@]}"
-      make -j
-    } &> /dev/null || die "Failed to build box86"
+      make -j "$conf_box_make_threads"
+    } &> "$conf_box86_make_log" || die "Failed to build box86"
     if [[ "$1" == "--install" ]]; then
       require_sudo
       sudo make install &> /dev/null

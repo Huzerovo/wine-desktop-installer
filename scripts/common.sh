@@ -43,4 +43,18 @@ check_env() {
   fi
 }
 
+wine_desktop_init() {
+  if [[ ! -d "$wine_desktop_cache" ]]; then
+		mkdir -p "$wine_desktop_cache"
+	fi
+
+  if [[ ! -d "$wine_desktop_3rd" ]]; then
+		mkdir -p "$wine_desktop_3rd"
+	fi
+
+  if [[ ! -d "$wine_desktop_log" ]]; then
+		mkdir -p "$wine_desktop_log"
+	fi
+}
+
 # vim: tabstop=2 shiftwidth=2 softtabstop=2

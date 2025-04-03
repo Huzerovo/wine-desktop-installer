@@ -9,6 +9,7 @@ source common.sh
 source config.sh
 
 check_env
+wine_desktop_init
 
 usage() {
   cat << __EOF__

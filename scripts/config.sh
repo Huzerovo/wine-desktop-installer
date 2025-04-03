@@ -7,6 +7,7 @@ wine_desktop="$WINE_DESKTOP_CONTAINER"
 wine_desktop_installer="$wine_desktop/installer"
 wine_desktop_cache="$wine_desktop/cache"
 wine_desktop_3rd="$wine_desktop/3rd"
+wine_desktop_log="$wine_desktop/log"
 
 ################################################################################
 # Configuration for box64 and box86
@@ -19,9 +20,11 @@ conf_box64_version="git"
 conf_box86_version="git"
 
 # Build command
+conf_box86_make_log="$wine_desktop_log/box86_build_$(date +"%Y%m%d_%k_%M_%S").log"
+conf_box64_make_log="$wine_desktop_log/box64_build_$(date +"%Y%m%d_%k_%M_%S").log"
+conf_box_make_threads=4
 declare -a conf_box64_cmake_flags
 conf_box64_cmake_flags=(
-  --log-level=ERROR
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
   -DARM_DYNAREC=1
   -DARM64=1
@@ -31,7 +34,6 @@ conf_box64_cmake_flags=(
 
 declare -a conf_box86_cmake_flags
 conf_box86_cmake_flags=(
-  --log-level=ERROR
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
   -DARM_DYNAREC=1
   -DARM64=1
