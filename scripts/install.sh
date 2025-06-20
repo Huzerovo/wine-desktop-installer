@@ -17,7 +17,6 @@ Usage wine-desktop-installer [OPTIONS]
 
 OPTIONS:
     --all                   Do a full installation.
-                            This action will stop wineserver
     --install-winetricks    Install or update winetricks
     --install-wine          Install wine
                             NOTE: This action will stop wineserver
@@ -72,9 +71,7 @@ source functions/install_winetricks.sh
 source functions/install_wine_replacement.sh
 
 # functions for installing wine depends (arm64 ot armhf architecture)
-#source functions/pre_processing.sh
-#source functions/generate_depends.sh
-#source functions/install_depends.sh
+source functions/install_depends.sh
 
 # function for install shell profile
 source functions/install_bash_profile.sh
@@ -112,6 +109,14 @@ case $1 in
     ;;
 
   # box
+  --install-box86)
+    conf_box64_version=""
+    install_box
+    ;;
+  --install-box64)
+    conf_box86_version=""
+    install_box
+    ;;
   --install-box)
     install_box
     ;;
@@ -123,8 +128,6 @@ case $1 in
     extract_box
     ;;
   --build-box)
-		download_box
-		extract_box
     build_box
     ;;
   --install-boxrc)
@@ -134,6 +137,7 @@ case $1 in
   # wine
   --install-wine)
     install_wine
+    install_depends
     ;;
   --download-wine)
     download_wine

@@ -15,7 +15,7 @@ download_wine() {
   if [[ -n "$version_wine64" ]]; then
     for pkg in "${DEB64_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
-        info " downloading 64-bit package: '${pkg}'"
+        info " downloading 64-bit package: '${pkg}' from '${LINK64}/$pkg'"
         require_pkg "wget"
         wget -q -c "${LINK64}/${pkg}" -O "$wine_desktop_cache/$pkg" || die "Failed to download '${pkg}'"
       fi
@@ -26,7 +26,7 @@ download_wine() {
   if [[ -n "$version_wine32" ]]; then
     for pkg in "${DEB32_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
-        info " downloading 32-bit package: '${pkg}'"
+        info " downloading 32-bit package: '${pkg}' from '${LINK32}/${pkg}'"
         require_pkg "wget"
         wget -q -c "${LINK32}/${pkg}" -O "$wine_desktop_cache/$pkg" || die "Failed to download '${pkg}'"
       fi
@@ -40,6 +40,10 @@ extract_wine() {
 
   # extract files in 64-bit packages
   if [[ -n "$version_wine64" ]]; then
+    if [[ -d "$wine64_extract" ]]; then
+      warn " remove exsit wine64 binary"
+      rm -rf "$wine64_extract"
+    fi
     mkdir -p "$wine64_extract"
     for pkg in "${DEB64_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then
@@ -51,6 +55,10 @@ extract_wine() {
 
   # extract files in 32-bit packages
   if [[ -n "$version_wine32" ]]; then
+    if [[ -d "$wine32_extract" ]]; then
+      warn " remove exsit wine32 binary"
+      rm -rf "$wine32_extract"
+    fi
     mkdir -p "$wine32_extract"
     for pkg in "${DEB32_PKGS[@]}"; do
       if [[ -n "$pkg" ]]; then

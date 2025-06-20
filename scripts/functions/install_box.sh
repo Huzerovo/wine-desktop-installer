@@ -31,7 +31,7 @@ __download_box86() {
 			git clone "$conf_box86_repo" "$conf_box86_3rd" &> /dev/null || die "Failed to clone box86 git repo"
 		fi
   else
-    info "Downloading box86 to '$conf_box64_tar'..."
+    info "Downloading box86 to '$conf_box86_tar'..."
     wget -q -c "$conf_box86_tar_link" -O "$conf_box86_tar" || die "Failed to download box86 archive"
   fi
 }
@@ -39,7 +39,7 @@ __download_box86() {
 __extract_box64() {
   if [[ -f "$conf_box64_tar" ]]; then
     info " extracting for box64..."
-    tar -xzf "$conf_box64_tar" || erro "Failed to extract '$conf_box64_tar'"
+    tar -C "$wine_desktop_3rd" -xzf "$conf_box64_tar" || erro "Failed to extract '$conf_box64_tar'"
   else
     warn "Can not find '$conf_box64_tar' when extracting, ignored."
   fi
@@ -49,7 +49,7 @@ __extract_box64() {
 __extract_box86() {
   if [[ -f "$conf_box86_tar" ]]; then
     info " extracting for box86..."
-    tar -xzf "$conf_box86_tar" || erro "Failed to extract '$conf_box86_tar'"
+    tar -C "$wine_desktop_3rd" -xzf "$conf_box86_tar" || erro "Failed to extract '$conf_box86_tar'"
   else
     warn "Can not find '$conf_box86_tar' when extracting, ignored."
   fi
@@ -81,6 +81,7 @@ __build_box64() {
 
 __build_box86() {
   require_pkg "gcc-arm-linux-gnueabihf"
+  require_pkg "libc6:armhf" # This package is required for running box86
   if [[ -d "$conf_box86_3rd" ]]; then
     local tpwd="$PWD"
 		if [[ -d "$conf_box86_build" ]] ; then 
@@ -93,7 +94,7 @@ __build_box86() {
     {
       cmake "$conf_box86_3rd" "${conf_box86_cmake_flags[@]}"
       make -j "$conf_box_make_threads"
-    } &> "$conf_box86_make_log" || die "Failed to build box86"
+    } &> "$conf_box86_make_log" || die "Failed to build box86, build command: cmake $conf_box86_3rd ${conf_box86_cmake_flags[@]}"
     if [[ "$1" == "--install" ]]; then
       require_sudo
       sudo make install &> /dev/null

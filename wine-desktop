@@ -40,7 +40,7 @@ start_wine_desktop() {
   fi
   if ! [[ -d "$WINEPREFIX" ]]; then
     warn "Can not find prefix: '$WINEPREFIX', creating it..."
-    ${WINE} wineboot &> /dev/null || die "Can not run 'wineboot'"
+    ${WINE} wineboot "$WINEPREFIX" &> /dev/null || die "Can not run 'wineboot'"
   fi
   cd "$WINEPREFIX" || die "Can not change work directory into prefix"
   stop_wine64
@@ -119,6 +119,9 @@ if [[ -n "$WINE_DESKTOP_KEEP" ]] && [[ $WINE_DESKTOP_KEEP -eq 1 ]]; then
         wineserver -k
         info "wine desktop stopped"
         break
+        ;;
+      log)
+        cat "$WINEPREFIX/wine-desktop.log"
         ;;
       *)
         warn "type 'q' or 'quit' to exit"

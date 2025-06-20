@@ -20,7 +20,7 @@ die() {
 }
 
 require_pkg() {
-  if ! which "$1" &> /dev/null; then
+  if ! dpkg-query --status "$1" &> /dev/null; then
     if [[ "$1" == "sudo" ]]; then
       erro "Require 'sudo'"
       die "please install the 'sudo' package and add user to sudoers manually"
